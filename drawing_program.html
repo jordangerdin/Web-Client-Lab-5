@@ -18,9 +18,9 @@
 
 <P>Drag the mouse on the canvas</P>
 <canvas id="canvas" height="400" width="400"></canvas><br>
-<label for name="brushColor">Brush color:</label>
+<label for="brushColor">Brush color:</label>
 <input type="color" id="brushColor" name ="brushColor"><br>
-<label for name="brushSize">Brush Size:</label>
+<label for="brushSize">Brush Size:</label>
 <input type="range" id="brushSize" name="brushSize" min=1, max=10 value=3 step=1><br><br>
 <input type="button" id="clearButton" name="clearButton" value="Clear">
 
@@ -28,12 +28,14 @@
 
   var canvas = document.getElementById("canvas")
   var context = canvas.getContext("2d")
-  //var bcolor = document.getElementById("brushColor")
-  //var bsize = document.getElementById("brushSize")
-  //var clear = document.getElementById("clearButton")
+  var bcolor = document.querySelector("#brushColor")
+  var bsize = document.querySelector("#brushSize")
+  var clear = document.getElementById("clearButton")
   
   // Keep track of whether the mouse button has been pressed down or not.
   var mousedown = false 
+
+  console.log(bsize.value)
 
   canvas.addEventListener("mousedown", function() {
     mousedown = true
@@ -52,16 +54,20 @@
     // get the x, y location of the event
     var x = event.offsetX
     var y = event.offsetY   //offsetX, offsetY, may not work in older browsers
+    
+    let brushsize = bsize.value
+    let brushcolor = bcolor.value // get color and brush size
 
-    //Draw a filled rectangle centered under the mouse click
-    //x, y is the top left corner, so shift up and left by 5 to center it under the mouse.
-    //let brushsize = bsize.value()
-    //let brushcolor = bcolor.value()
 
+    //Draw a filled circle centered around the point of the mouse click
+    //Modify the color and size of the circle based on selected color and size
     context.beginPath()
-    context.arc(x, y, 3, 0, 2*Math.PI)
+    context.arc(x, y, brushsize, 0, 2*Math.PI)
+    context.fillStyle = brushcolor
     context.fill()
+    context.strokeStyle = brushcolor
     context.stroke()
+
 
   })
 
